@@ -24,13 +24,9 @@ def feed_me_a_fruit
   puts "Hello, I am a friendly monster. :)"
 
   puts "Feed me a fruit! (Enter the name of a fruit:)"
-  begin
-      maybe_fruit = gets.chomp
-      reaction(maybe_fruit) 
-  rescue StandardError
-      puts "I don't like #{maybe_fruit}! Can I have something different?"
-    retry
-  end
+  maybe_fruit = gets.chomp
+  reaction(maybe_fruit) 
+  
 end  
 
 # PHASE 4
