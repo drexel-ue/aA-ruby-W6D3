@@ -1,24 +1,42 @@
-require_relative 'pieces/piece'
+require 'byebug'
+require_relative 'pieces/rook_bishop_queen'
+require_relative 'pieces/pawn'
 require_relative 'pieces/null_piece'
+require_relative 'pieces/knight_king'
+
 
 class Board
 
-    def self.populate(grid)
-        (0..7).each do |row|
-            if row < 1  
-                [0,2,-3,-1].each do |col|  #[0,1,-2,-1].each do |j|
-                    grid[row][col] << 
-                end
-                [1,-2].each do  #knight
-            elsif wor < 6
-            else
-            end
-        end
-        
-    end
-
+    attr_accessor :grid
+    
     def initialize
-        @grid = Array.new(8) {Array.new(8)}
-
+        @grid = Array.new(8) { Array.new(8) }
+        populate
     end
+
+    def populate
+        # debugger
+        (0..7).each do |row|
+            if row == 0 || row == -1
+                [0,2,3,5,7].each do |col|  
+                    @grid[row][col] = row == 0 ? RookBishopQueen.new(:black, self, [row, col]) : RookBishopQueen.new(:white, self, [row, col])
+                end
+                [1,4,6].each do |col|
+                    @grid[row][col] = KnightKing.new(:black, self, [row, col])
+                end
+            elsif row == 1 || row == -2
+                (0..7).each do |col|
+                    @grid[row][col] = row == 1 ? Pawn.new(:black, self, [row, col]) : Pawn.new(:white, self, [row, col])
+                end
+            else
+                (0..7).each do |col|
+                    @grid[row][col] = NullPiece.new(self, [row, col])
+                end
+            end  
+        end
+    end
+
 end
+
+b = Board.new
+print b.grid
